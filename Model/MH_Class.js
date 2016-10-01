@@ -1,6 +1,9 @@
 function MontyHallSimulation(NumberOfDoors) {
   this.NumberOfDoors = NumberOfDoors;
   this.doors = [];
+  this.firstPick = null;
+  this.secondPick = null;
+  this.result = null;
 
   i = 0;
   while (i < this.NumberOfDoors) {
@@ -14,14 +17,35 @@ function MontyHallSimulation(NumberOfDoors) {
 
 MontyHallSimulation.prototype.pickFirstDoor = function (doorNumber) {
   doorNumber -= 1; //so that it corresponds to the array index
-
+  this.firstPick = doorNumber;
   this.doors[doorNumber].isFirstSelection = true;
 };
 
 MontyHallSimulation.prototype.pickSecondDoor = function (doorNumber) {
   doorNumber -= 1; //so that it corresponds to the array index
-
+  this.secondPick = doorNumber;
   this.doors[doorNumber].isSecondSelection = true;
+};
+
+MontyHallSimulation.prototype.checkResult = function () {
+
+  if (this.firstPick === this.secondPick)  {
+    if (this.doors[this.secondPick].DoorContent === "Car") {
+      console.log("You stuck with your first pick and got the car.");
+    }
+    else if (this.doors[this.secondPick].DoorContent === "Goat") {
+      console.log("You stuck with your first pick but didn't get the car.");
+    }
+  }
+  else if (this.firstPick !== this.secondPick) {
+    if (this.doors[this.secondPick].DoorContent === "Car") {
+      console.log("You changed your second pick and you got the car!");
+    }
+    else if (this.doors[this.secondPick].DoorContent === "Goat") {
+      console.log("You changed your second pick but did not get the car!");
+    }
+  }
+
 };
 
 // Helper method for the random int generation
