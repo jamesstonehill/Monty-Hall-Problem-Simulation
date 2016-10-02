@@ -28,24 +28,27 @@ MontyHallSimulation.prototype.pickSecondDoor = function (doorNumber) {
 };
 
 MontyHallSimulation.prototype.checkResult = function () {
+  if (this.firstPick === null || this.secondPick === null) {
+    throw (new Error('The round is not finished'));
+  }
 
   if (this.firstPick === this.secondPick)  {
     if (this.doors[this.secondPick].DoorContent === "Car") {
       console.log("You stuck with your first pick and got the car.");
-    }
-    else if (this.doors[this.secondPick].DoorContent === "Goat") {
+      this.result = 1.1;
+    } else if (this.doors[this.secondPick].DoorContent === "Goat") {
       console.log("You stuck with your first pick but didn't get the car.");
+      this.result = 1.2;
     }
-  }
-  else if (this.firstPick !== this.secondPick) {
+  } else if (this.firstPick !== this.secondPick) {
     if (this.doors[this.secondPick].DoorContent === "Car") {
       console.log("You changed your second pick and you got the car!");
-    }
-    else if (this.doors[this.secondPick].DoorContent === "Goat") {
+      this.result = 2.1;
+    } else if (this.doors[this.secondPick].DoorContent === "Goat") {
       console.log("You changed your second pick but did not get the car!");
+      this.result = 2.2;
     }
   }
-
 };
 
 // Helper method for the random int generation
