@@ -4,6 +4,8 @@ function MontyHallSimulation(NumberOfDoors) {
   this.firstPick = null;
   this.secondPick = null;
   this.result = null;
+  this.carLocation = null;
+
 
   i = 0;
   while (i < this.NumberOfDoors) {
@@ -12,17 +14,18 @@ function MontyHallSimulation(NumberOfDoors) {
   }
 
   rand = getRandomInt(0, this.NumberOfDoors);
-  this.doors[rand].DoorContent = "Car";
+  this.doors[rand].doorContent = "Car";
+  this.carLocation = rand;
 }
 
 MontyHallSimulation.prototype.pickFirstDoor = function (doorNumber) {
-  doorNumber -= 1; //so that it corresponds to the array index
+  // doorNumber -= 1; //so that it corresponds to the array index
   this.firstPick = doorNumber;
   this.doors[doorNumber].isFirstSelection = true;
 };
 
 MontyHallSimulation.prototype.pickSecondDoor = function (doorNumber) {
-  doorNumber -= 1; //so that it corresponds to the array index
+  // doorNumber -= 1; //so that it corresponds to the array index
   this.secondPick = doorNumber;
   this.doors[doorNumber].isSecondSelection = true;
 };
@@ -32,23 +35,30 @@ MontyHallSimulation.prototype.checkResult = function () {
     throw (new Error('The round is not finished'));
   }
 
+  console.log(this);
+  console.log(this.secondPick);
+  console.log(this.carLocation);
+  console.log(this.doors[this.secondPick].doorContent);
+
   if (this.firstPick === this.secondPick)  {
-    if (this.doors[this.secondPick].DoorContent === "Car") {
+    if (this.doors[this.secondPick].doorContent === "Car") {
       console.log("You stuck with your first pick and got the car.");
       this.result = 1.1;
-    } else if (this.doors[this.secondPick].DoorContent === "Goat") {
+    } else if (this.doors[this.secondPick].doorContent === "Goat") {
       console.log("You stuck with your first pick but didn't get the car.");
       this.result = 1.2;
     }
   } else if (this.firstPick !== this.secondPick) {
-    if (this.doors[this.secondPick].DoorContent === "Car") {
+    if (this.doors[this.secondPick].doorContent === "Car") {
       console.log("You changed your second pick and you got the car!");
       this.result = 2.1;
-    } else if (this.doors[this.secondPick].DoorContent === "Goat") {
+    } else if (this.doors[this.secondPick].doorContent === "Goat") {
       console.log("You changed your second pick but did not get the car!");
       this.result = 2.2;
     }
   }
+
+  return this.result;
 };
 
 // Helper method for the random int generation

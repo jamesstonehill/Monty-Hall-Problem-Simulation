@@ -18,7 +18,7 @@ describe("MontyHallSimulation", function() {
   describe('.pickFirstDoor',function() {
     it("sets the specified door to have isFirstSelection equal true", function() {
       expect(simulationTen.doors[0].isFirstSelection).toEqual(false);
-      simulationTen.pickFirstDoor(1);
+      simulationTen.pickFirstDoor(0);
       expect(simulationTen.doors[0].isFirstSelection).toEqual(true);
     });
   });
@@ -26,29 +26,33 @@ describe("MontyHallSimulation", function() {
   describe('.pickSecondDoor',function() {
     it("sets the specified door to have isFirstSelection equal true", function() {
       expect(simulationTen.doors[0].isSecondSelection).toEqual(false);
-      simulationTen.pickSecondDoor(1);
+      simulationTen.pickSecondDoor(0);
       expect(simulationTen.doors[0].isSecondSelection).toEqual(true);
     });
   });
 
   describe('.checkResult', function() {
+    var doorLocation;
+
+    beforeEach(function() {
+      doorLocation = 5;
+      spyOn(window, 'getRandomInt').and.returnValue(doorLocation);
+      simulationTen = new MontyHallSimulation(10);
+    });
+
     it('throws an error if the round is not done', function() {
       expect(function() {simulationTen.checkResult(); }).toThrow(new Error('The round is not finished'));
     });
 
     it('sets result to equal 1.1 if the user sticks with first pick and gets the car', function() {
-      var doorLocation = 4;
-      spyOn(window, 'getRandomInt').and.returnValue(doorLocation);
-      var doorPick = doorLocation;
-      simulationTen.pickFirstDoor(doorPick);
-      simulationTen.pickSecondDoor(doorPick);
+      simulationTen.pickFirstDoor(doorLocation);
+      simulationTen.pickSecondDoor(doorLocation);
       simulationTen.checkResult();
-      expect(simulationTen.result).toEqual(1.2);
+      expect(simulationTen.result).toEqual(1.1);
     });
 
     it('sets result to equal 1.2 if the user sticks with first pick and does not get the car', function() {
-      spyOn(window, 'getRandomInt').and.returnValue(8);
-      var doorPick = 4;
+      var doorPick = doorLocation + 2;
       simulationTen.pickFirstDoor(doorPick);
       simulationTen.pickSecondDoor(doorPick);
       simulationTen.checkResult();
@@ -56,17 +60,13 @@ describe("MontyHallSimulation", function() {
     });
 
     it('sets result equal to 2.1 if the user changes his/her second pick and gets the car', function () {
-      var doorLocation = 4;
-      spyOn(window, 'getRandomInt').and.returnValue(4);
       simulationTen.pickFirstDoor(2);
-      simulationTen.pickSecondDoor(4);
+      simulationTen.pickSecondDoor(doorLocation);
       simulationTen.checkResult();
       expect(simulationTen.result).toEqual(2.1);
     });
 
     it('sets result equal to 2.2 if the user changes his/her second pick but does not gets the car', function () {
-      var doorLocation = 4;
-      spyOn(window, 'getRandomInt').and.returnValue(doorLocation);
       simulationTen.pickFirstDoor(2);
       simulationTen.pickSecondDoor(8);
       simulationTen.checkResult();
