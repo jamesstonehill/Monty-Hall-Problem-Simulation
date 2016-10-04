@@ -12,7 +12,6 @@ describe("MontyHallSimulation", function() {
       expect(simulationTen.secondPick).toEqual(null);
       expect(simulationTen.result).toEqual(null);
     });
-
   });
 
   describe('.pickFirstDoor',function() {
@@ -37,11 +36,11 @@ describe("MontyHallSimulation", function() {
     beforeEach(function() {
       doorLocation = 5;
       spyOn(window, 'getRandomInt').and.returnValue(doorLocation);
-      simulationTen = new MontyHallSimulation(10);
+      simulationTen = new MontyHallSimulation(10); //must be included after the spy
     });
 
     it('throws an error if the round is not done', function() {
-      expect(function() {simulationTen.checkResult(); }).toThrow(new Error('The round is not finished'));
+      expect(function() { simulationTen.checkResult(); }).toThrow(new Error('The round is not finished'));
     });
 
     it('sets result to equal 1.1 if the user sticks with first pick and gets the car', function() {

@@ -4,8 +4,6 @@ function MontyHallSimulation(NumberOfDoors) {
   this.firstPick = null;
   this.secondPick = null;
   this.result = null;
-  this.carLocation = null;
-
 
   i = 0;
   while (i < this.NumberOfDoors) {
@@ -34,11 +32,6 @@ MontyHallSimulation.prototype.checkResult = function () {
   if (this.firstPick === null || this.secondPick === null) {
     throw (new Error('The round is not finished'));
   }
-
-  console.log(this);
-  console.log(this.secondPick);
-  console.log(this.carLocation);
-  console.log(this.doors[this.secondPick].doorContent);
 
   if (this.firstPick === this.secondPick)  {
     if (this.doors[this.secondPick].doorContent === "Car") {
